@@ -38,8 +38,10 @@ function get_level(uses)
   elseif uses < 400 then
     return 3
   elseif uses < 800 then
+    return 4
+  elseif uses < 1600 then
     return 5
-  elseif uses > 1600 then
+  else
     return 6
   end
 end
