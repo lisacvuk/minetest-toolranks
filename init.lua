@@ -55,8 +55,10 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
   local dugnodes  = tonumber(itemmeta:get_string("dug")) or 0 -- Number of nodes dug
   local lastlevel = tonumber(itemmeta:get_string("lastlevel")) or 1 -- Level the tool had
                                                                     -- on the last dig
-
-  dugnodes = dugnodes + 1
+  -- Only count nodes that spend the tool
+  if(digparams.wear > 0) then
+   dugnodes = dugnodes + 1
+  end
 
   level = toolranks.get_level(dugnodes)
 
