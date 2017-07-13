@@ -1,11 +1,13 @@
-local colors = {
+toolranks = {}
+
+toolranks.colors = {
   grey = minetest.get_color_escape_sequence("#9d9d9d"),
   green = minetest.get_color_escape_sequence("#1eff00"),
   gold = minetest.get_color_escape_sequence("#ffdf00"),
   white = minetest.get_color_escape_sequence("#ffffff")
 }
 
-function get_tool_type(description)
+function toolranks.get_tool_type(description)
   if string.find(description, "Pickaxe") then
     return "pickaxe"
   elseif string.find(description, "Axe") then
@@ -19,18 +21,18 @@ function get_tool_type(description)
   end
 end
 
-function create_description(name, uses, level)
+function toolranks.create_description(name, uses, level)
   local description = name
-  local tooltype    = get_tool_type(description)
+  local tooltype    = toolranks.get_tool_type(description)
 
-  local newdesc = colors.green .. description .. "\n" ..
-                  colors.gold .. "Level " .. level .. " " .. tooltype .. "\n" ..
-                  colors.grey .. "Nodes dug: " .. uses
+  local newdesc = toolranks.colors.green .. description .. "\n" ..
+                  toolranks.colors.gold .. "Level " .. level .. " " .. tooltype .. "\n" ..
+                  toolranks.colors.grey .. "Nodes dug: " .. uses
 
   return newdesc
 end
 
-function get_level(uses)
+function toolranks.get_level(uses)
   if uses <= 100 then
     return 1
   elseif uses < 200 then
@@ -46,7 +48,7 @@ function get_level(uses)
   end
 end
 
-function new_afteruse(itemstack, user, node, digparams)
+function toolranks.new_afteruse(itemstack, user, node, digparams)
   local itemmeta  = itemstack:get_meta() -- Metadata
   local itemdef   = itemstack:get_definition() -- Item Definition
   local itemdesc  = itemdef.original_description -- Original Description
@@ -56,16 +58,16 @@ function new_afteruse(itemstack, user, node, digparams)
 
   dugnodes = dugnodes + 1
 
-  level = get_level(dugnodes)
+  level = toolranks.get_level(dugnodes)
 
   if lastlevel < level then
-    local levelup_text = "Your " .. colors.green ..
-                         itemdesc .. colors.white ..
+    local levelup_text = "Your " .. toolranks.colors.green ..
+                         itemdesc .. toolranks.colors.white ..
                          " just leveled up!"
     minetest.chat_send_player(user:get_player_name(), levelup_text)
   end
 
-  local newdesc   = create_description(itemdesc, dugnodes, level)
+  local newdesc   = toolranks.create_description(itemdesc, dugnodes, level)
 
   itemmeta:set_string("lastlevel", level)
   itemmeta:set_string("dug", dugnodes)
@@ -85,91 +87,91 @@ end
 
 minetest.override_item("default:pick_diamond", {
   original_description = "Diamond Pickaxe",
-  description = create_description("Diamond Pickaxe", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Diamond Pickaxe", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:axe_diamond", {
   original_description = "Diamond Axe",
-  description = create_description("Diamond Axe", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Diamond Axe", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:shovel_diamond", {
   original_description = "Diamond Shovel",
-  description = create_description("Diamond Shovel", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Diamond Shovel", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:pick_wood", {
   original_description = "Wooden Pickaxe",
-  description = create_description("Wooden Pickaxe", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Wooden Pickaxe", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:axe_wood", {
   original_description = "Wooden Axe",
-  description = create_description("Wooden Axe", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Wooden Axe", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:shovel_wood", {
   original_description = "Wooden Shovel",
-  description = create_description("Wooden Shovel", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Wooden Shovel", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:pick_steel", {
   original_description = "Steel Pickaxe",
-  description = create_description("Steel Pickaxe", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Steel Pickaxe", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:axe_steel", {
   original_description = "Steel Axe",
-  description = create_description("Steel Axe", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Steel Axe", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:shovel_steel", {
   original_description = "Steel Shovel",
-  description = create_description("Steel Shovel", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Steel Shovel", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:pick_stone", {
   original_description = "Stone Pickaxe",
-  description = create_description("Stone Pickaxe", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Stone Pickaxe", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:axe_stone", {
   original_description = "Stone Axe",
-  description = create_description("Stone Axe", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Stone Axe", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:shovel_stone", {
   original_description = "Stone Shovel",
-  description = create_description("Stone Shovel", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Stone Shovel", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:pick_bronze", {
   original_description = "Bronze Pickaxe",
-  description = create_description("Bronze Pickaxe", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Bronze Pickaxe", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:axe_bronze", {
   original_description = "Bronze Axe",
-  description = create_description("Bronze Axe", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Bronze Axe", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:shovel_bronze", {
   original_description = "Bronze Shovel",
-  description = create_description("Bronze Shovel", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Bronze Shovel", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:pick_mese", {
   original_description = "Mese Pickaxe",
-  description = create_description("Mese Pickaxe", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Mese Pickaxe", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:axe_mese", {
   original_description = "Mese Axe",
-  description = create_description("Mese Axe", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Mese Axe", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
 minetest.override_item("default:shovel_mese", {
   original_description = "Mese Shovel",
-  description = create_description("Mese Shovel", 0, 1),
-  after_use = new_afteruse,
+  description = toolranks.create_description("Mese Shovel", 0, 1),
+  after_use = toolranks.new_afteruse,
 })
