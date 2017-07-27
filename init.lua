@@ -59,7 +59,13 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
   if(digparams.wear > 0) then
    dugnodes = dugnodes + 1
   end
-
+  if(itemstack:get_wear() > 65135) then
+	minetest.chat_send_player(user:get_player_name(), "Your tool is about to break, comrade!")
+	minetest.sound_play("default_tool_breaks", {
+		to_player = user:get_player_name(),
+		gain = 2.0,
+	})
+  end
   level = toolranks.get_level(dugnodes)
 
   if lastlevel < level then
