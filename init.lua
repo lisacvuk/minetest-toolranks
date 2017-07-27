@@ -60,11 +60,11 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
    dugnodes = dugnodes + 1
   end
   if(itemstack:get_wear() > 60135) then
-	minetest.chat_send_player(user:get_player_name(), "Your tool is about to break, comrade!")
-	minetest.sound_play("default_tool_breaks", {
-		to_player = user:get_player_name(),
-		gain = 2.0,
-	})
+    minetest.chat_send_player(user:get_player_name(), "Your tool is about to break, comrade!")
+    minetest.sound_play("default_tool_breaks", {
+      to_player = user:get_player_name(),
+      gain = 2.0,
+    })
   end
   level = toolranks.get_level(dugnodes)
 
@@ -72,6 +72,10 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
     local levelup_text = "Your " .. toolranks.colors.green ..
                          itemdesc .. toolranks.colors.white ..
                          " just leveled up!"
+    minetest.sound_play("toolranks_levelup", {
+      to_player = user:get_player_name(),
+      gain = 2.0,
+    })
     minetest.chat_send_player(user:get_player_name(), levelup_text)
   end
 
