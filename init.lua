@@ -66,7 +66,7 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
       gain = 2.0,
     })
   end
-  level = toolranks.get_level(dugnodes)
+  local level = toolranks.get_level(dugnodes)
 
   if lastlevel < level then
     local levelup_text = "Your " .. toolranks.colors.green ..
