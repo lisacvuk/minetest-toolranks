@@ -58,6 +58,7 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
   -- Only count nodes that spend the tool
   if(digparams.wear > 0) then
    dugnodes = dugnodes + 1
+   itemmeta:set_string("dug", dugnodes)
   end
   if(itemstack:get_wear() > 60135) then
     minetest.chat_send_player(user:get_player_name(), "Your tool is about to break, comrade!")
@@ -77,12 +78,11 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
       gain = 2.0,
     })
     minetest.chat_send_player(user:get_player_name(), levelup_text)
+    itemmeta:set_string("lastlevel", level)
   end
 
   local newdesc   = toolranks.create_description(itemdesc, dugnodes, level)
 
-  itemmeta:set_string("lastlevel", level)
-  itemmeta:set_string("dug", dugnodes)
   itemmeta:set_string("description", newdesc)
   local wear = digparams.wear
   if level > 1 then
