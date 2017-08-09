@@ -68,7 +68,9 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
   if lastlevel < level then
     local levelup_text = "Your " .. toolranks.colors.green ..
                          itemdesc .. toolranks.colors.white ..
-                         " just leveled up!"
+                         " just leveled up to " ..
+                         toolranks.colors.green .. "level " ..
+                         level .. toolranks.colors.white .. "!"
     minetest.sound_play("toolranks_levelup", {
       to_player = user:get_player_name(),
       gain = 2.0,
