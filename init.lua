@@ -32,20 +32,16 @@ function toolranks.create_description(name, uses, level)
   return newdesc
 end
 
+function toolranks.log2(value)
+  return math.log(value) / math.log(2)
+end
+
 function toolranks.get_level(uses)
-  if uses <= 100 then
-    return 1
-  elseif uses < 200 then
-    return 2
-  elseif uses < 400 then
-    return 3
-  elseif uses < 800 then
-    return 4
-  elseif uses < 1600 then
-    return 5
-  else
-    return 6
+  level = math.ceil(toolranks.log2(uses / 100)) + 1
+  if level < 1 then
+    level = 1
   end
+  return level
 end
 
 function toolranks.new_afteruse(itemstack, user, node, digparams)
