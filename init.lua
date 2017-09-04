@@ -33,15 +33,15 @@ function toolranks.create_description(name, uses, level)
 end
 
 function toolranks.get_level(uses)
-  if uses <= 100 then
+  if uses <= 200 then
     return 1
-  elseif uses < 200 then
-    return 2
   elseif uses < 400 then
+    return 2
+  elseif uses < 1000 then
     return 3
-  elseif uses < 800 then
+  elseif uses < 2000 then
     return 4
-  elseif uses < 1600 then
+  elseif uses < 3200 then
     return 5
   else
     return 6
