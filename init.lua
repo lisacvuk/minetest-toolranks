@@ -1,3 +1,5 @@
+local mod_storage = minetest.get_mod_storage()
+
 toolranks = {}
 
 toolranks.colors = {
@@ -55,13 +57,27 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
   local dugnodes  = tonumber(itemmeta:get_string("dug")) or 0 -- Number of nodes dug
   local lastlevel = tonumber(itemmeta:get_string("lastlevel")) or 1 -- Level the tool had
                                                                     -- on the last dig
+  local most_digs = mod_storage:get_int("most_digs") or 0
+  local most_digs_user = mod_storage:get_string("most_digs_user") or 0
+  
   -- Only count nodes that spend the tool
   if(digparams.wear > 0) then
    dugnodes = dugnodes + 1
    itemmeta:set_string("dug", dugnodes)
   end
+  if(dugnodes > most_digs) then
+    most_digs = dugnodes
+	if(most_digs_user ~= user:get_player_name()) then -- Avoid spam.
+		most_digs_user = user:get_player_name()
+		minetest.chat_send_all("Most used tool is now a " .. toolranks.colors.green .. itemdesc 
+							.. toolranks.colors.white .. " owned by " .. user:get_player_name()
+							.. " with " .. dugnodes .. " uses.")
+	end
+	mod_storage:set_int("most_digs", dugnodes)
+	mod_storage:set_string("most_digs_user", user:get_player_name())
+  end
   if(itemstack:get_wear() > 60135) then
-    minetest.chat_send_player(user:get_player_name(), "Your tool is about to break, comrade!")
+    minetest.chat_send_player(user:get_player_name(), "Your tool is about to break!")
     minetest.sound_play("default_tool_breaks", {
       to_player = user:get_player_name(),
       gain = 2.0,
