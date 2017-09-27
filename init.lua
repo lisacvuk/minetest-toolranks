@@ -67,14 +67,14 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
   end
   if(dugnodes > most_digs) then
     most_digs = dugnodes
-	if(most_digs_user ~= user:get_player_name()) then -- Avoid spam.
-		most_digs_user = user:get_player_name()
-		minetest.chat_send_all("Most used tool is now a " .. toolranks.colors.green .. itemdesc 
-							.. toolranks.colors.white .. " owned by " .. user:get_player_name()
-							.. " with " .. dugnodes .. " uses.")
-	end
-	mod_storage:set_int("most_digs", dugnodes)
-	mod_storage:set_string("most_digs_user", user:get_player_name())
+    if(most_digs_user ~= user:get_player_name()) then -- Avoid spam.
+      most_digs_user = user:get_player_name()
+      minetest.chat_send_all("Most used tool is now a " .. toolranks.colors.green .. itemdesc 
+                             .. toolranks.colors.white .. " owned by " .. user:get_player_name()
+                             .. " with " .. dugnodes .. " uses.")
+    end
+    mod_storage:set_int("most_digs", dugnodes)
+    mod_storage:set_string("most_digs_user", user:get_player_name())
   end
   if(itemstack:get_wear() > 60135) then
     minetest.chat_send_player(user:get_player_name(), "Your tool is about to break!")
