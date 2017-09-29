@@ -28,8 +28,8 @@ function toolranks.create_description(name, uses, level)
   local tooltype    = toolranks.get_tool_type(description)
 
   local newdesc = toolranks.colors.green .. description .. "\n" ..
-                  toolranks.colors.gold .. "Level " .. level .. " " .. tooltype .. "\n" ..
-                  toolranks.colors.grey .. "Nodes dug: " .. uses
+                  toolranks.colors.gold .. "Level " .. (level or 1) .. " " .. tooltype .. "\n" ..
+                  toolranks.colors.grey .. "Nodes dug: " .. (uses or 0)
 
   return newdesc
 end
