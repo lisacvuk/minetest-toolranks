@@ -1,6 +1,0 @@
-12.7.2017
-- Fixed bug making Minetest crash when dug nodes exceed 799
-13.7.2017
-- Only count nodes that spend the tool
-27.7.2017
-- Check if tool is about to break and notify the player
