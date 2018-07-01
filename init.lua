@@ -220,6 +220,11 @@ if minetest.get_modpath("moreores") then
     description = toolranks.create_description("Mithril Shovel", 0, 1),
     after_use = toolranks.new_afteruse})
 
+  minetest.override_item("moreores:sword_mithril", {
+    original_description = "Mithril Sword",
+    description = toolranks.create_description("Mithril Sword", 0, 1),
+    after_use = toolranks.new_afteruse})
+
   minetest.override_item("moreores:pick_silver", {
     original_description = "Silver Pickaxe",
     description = toolranks.create_description("Silver Pickaxe", 0, 1),
@@ -233,6 +238,11 @@ if minetest.get_modpath("moreores") then
   minetest.override_item("moreores:shovel_silver", {
     original_description = "Silver Shovel",
     description = toolranks.create_description("Silver Shovel", 0, 1),
+    after_use = toolranks.new_afteruse})
+
+  minetest.override_item("moreores:sword_silver", {
+    original_description = "Silver Sword",
+    description = toolranks.create_description("Silver Sword", 0, 1),
     after_use = toolranks.new_afteruse})
 end
 
@@ -259,7 +269,7 @@ minetest.override_item("default:sword_bronze", {
 
 minetest.override_item("default:sword_mese", {
 	original_description = "Mese Sword",
-	description = toolranks.create_description("Mesee Sword", 0, 1),
+	description = toolranks.create_description("Mese Sword", 0, 1),
 	after_use = toolranks.new_afteruse})
 
 minetest.override_item("default:sword_diamond", {
