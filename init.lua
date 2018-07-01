@@ -235,3 +235,34 @@ if minetest.get_modpath("moreores") then
     description = toolranks.create_description("Silver Shovel", 0, 1),
     after_use = toolranks.new_afteruse})
 end
+
+-- add swords for snappy nodes
+minetest.override_item("default:sword_wood", {
+	original_description = "Wooden Sword",
+	description = toolranks.create_description("Wooden Sword", 0, 1),
+	after_use = toolranks.new_afteruse})
+
+minetest.override_item("default:sword_stone", {
+	original_description = "Stone Sword",
+	description = toolranks.create_description("Stone Sword", 0, 1),
+	after_use = toolranks.new_afteruse})
+
+minetest.override_item("default:sword_steel", {
+	original_description = "Steel Sword",
+	description = toolranks.create_description("Steel Sword", 0, 1),
+	after_use = toolranks.new_afteruse})
+
+minetest.override_item("default:sword_bronze", {
+	original_description = "Bronze Sword",
+	description = toolranks.create_description("Bronze Sword", 0, 1),
+	after_use = toolranks.new_afteruse})
+
+minetest.override_item("default:sword_mese", {
+	original_description = "Mese Sword",
+	description = toolranks.create_description("Mesee Sword", 0, 1),
+	after_use = toolranks.new_afteruse})
+
+minetest.override_item("default:sword_diamond", {
+	original_description = "Diamond Sword",
+	description = toolranks.create_description("Diamond Sword", 0, 1),
+	after_use = toolranks.new_afteruse})
