@@ -10,7 +10,9 @@ toolranks.colors = {
 }
 
 function toolranks.get_tool_type(description)
-  if string.find(description, "Pickaxe") then
+  if not description then
+    return "tool"
+  elseif string.find(description, "Pickaxe") then
     return "pickaxe"
   elseif string.find(description, "Axe") then
     return "axe"
