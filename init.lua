@@ -156,3 +156,16 @@ add_tool("default:shovel_steel",	"Steel Shovel")
 add_tool("default:shovel_bronze",	"Bronze Shovel")
 add_tool("default:shovel_mese",		"Mese Shovel")
 add_tool("default:shovel_diamond",	"Diamond Shovel")
+
+-- Hoe
+if (minetest.get_modpath("farming")) then
+	add_tool("farming:hoe_wood",		"Wooden Hoe")
+	add_tool("farming:hoe_stone",		"Stone Hoe")
+	add_tool("farming:hoe_wood",		"Wooden Hoe")
+	add_tool("farming:hoe_stone",		"Stone Hoe")
+	add_tool("farming:hoe_steel",		"Steel Hoe")
+	add_tool("farming:hoe_bronze",		"Bronze Hoe")
+	add_tool("farming:hoe_mese",		"Mese Hoe")
+	add_tool("farming:hoe_diamond",		"Diamond Hoe")
+end
+
