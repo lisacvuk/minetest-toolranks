@@ -1,4 +1,5 @@
 local mod_storage = minetest.get_mod_storage()
+local S = minetest.get_translator("toolranks")
 
 toolranks = {}
 
@@ -12,16 +13,21 @@ toolranks.colors = {
 function toolranks.get_tool_type(description)
   if not description then
     return "tool"
-  elseif string.find(description, "Pickaxe") then
-    return "pickaxe"
-  elseif string.find(description, "Axe") then
-    return "axe"
-  elseif string.find(description, "Shovel") then
-    return "shovel"
-  elseif string.find(description, "Hoe") then
-    return "hoe"
   else
-    return "tool"
+    local d = string.lower(description)
+    if string.find(d, "pickaxe") then
+      return "pickaxe"
+    elseif string.find(d, "axe") then
+      return "axe"
+    elseif string.find(d, "shovel") then
+      return "shovel"
+    elseif string.find(d, "hoe") then
+      return "hoe"
+    elseif string.find(d, "sword") then
+      return "sword"
+    else
+      return "tool"
+    end
   end
 end
 
@@ -29,10 +35,14 @@ function toolranks.create_description(name, uses, level)
   local description = name
   local tooltype    = toolranks.get_tool_type(description)
 
-  local newdesc = toolranks.colors.green .. description .. "\n" ..
-                  toolranks.colors.gold .. "Level " .. (level or 1) .. " " .. tooltype .. "\n" ..
-                  toolranks.colors.grey .. "Nodes dug: " .. (uses or 0)
-
+  local newdesc = S("@1@2\n@3Level @4 @5\n@6@Node dug: @7", 
+                    toolranks.colors.green,
+                    description,
+                    toolranks.colors.gold,
+                    (level or 1),
+                    S(tooltype),
+                    toolranks.colors.grey,
+                    (uses or 0))
   return newdesc
 end
 
@@ -71,15 +81,18 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
     most_digs = dugnodes
     if(most_digs_user ~= user:get_player_name()) then -- Avoid spam.
       most_digs_user = user:get_player_name()
-      minetest.chat_send_all("Most used tool is now a " .. toolranks.colors.green .. itemdesc 
-                             .. toolranks.colors.white .. " owned by " .. user:get_player_name()
-                             .. " with " .. dugnodes .. " uses.")
+      minetest.chat_send_all(S("Most used tool is now a @1@2@3 owned by @4 with @5 uses.",
+                               toolranks.colors.green,
+                               itemdesc,
+                               toolranks.colors.white,
+                               user:get_player_name(),
+                               dugnodes))
     end
     mod_storage:set_int("most_digs", dugnodes)
     mod_storage:set_string("most_digs_user", user:get_player_name())
   end
   if(itemstack:get_wear() > 60135) then
-    minetest.chat_send_player(user:get_player_name(), "Your tool is about to break!")
+    minetest.chat_send_player(user:get_player_name(), S("Your tool is about to break!"))
     minetest.sound_play("default_tool_breaks", {
       to_player = user:get_player_name(),
       gain = 2.0,
@@ -88,9 +101,10 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
   local level = toolranks.get_level(dugnodes)
 
   if lastlevel < level then
-    local levelup_text = "Your " .. toolranks.colors.green ..
-                         itemdesc .. toolranks.colors.white ..
-                         " just leveled up!"
+    local levelup_text = S("Your @1@2@3 just leveled up!",
+                           toolranks.colors.green,
+                           itemdesc,
+                           toolranks.colors.white)
     minetest.sound_play("toolranks_levelup", {
       to_player = user:get_player_name(),
       gain = 2.0,
@@ -116,43 +130,43 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
 end
 
 -- Helper function
-local function add_tool(name, desc, afteruse)
-
-	minetest.override_item(name, {
-		original_description = desc,
-		description = toolranks.create_description(desc, 0, 1),
-		after_use = toolranks.new_afteruse
-	})
+local function add_tool(name)
+  local desc = ItemStack(name):get_definition().description
+  minetest.override_item(name, {
+          original_description = desc,
+          description = toolranks.create_description(desc, 0, 1),
+          after_use = toolranks.new_afteruse
+  })
 end
 
 -- Sword
-add_tool("default:sword_wood",		"Wooden Sword")
-add_tool("default:sword_stone",		"Stone Sword")
-add_tool("default:sword_steel",		"Steel Sword")
-add_tool("default:sword_bronze",	"Bronze Sword")
-add_tool("default:sword_mese",		"Mese Sword")
-add_tool("default:sword_diamond",	"Diamond Sword")
+add_tool("default:sword_wood")
+add_tool("default:sword_stone")
+add_tool("default:sword_steel")
+add_tool("default:sword_bronze")
+add_tool("default:sword_mese")
+add_tool("default:sword_diamond")
 
 -- Pickaxe
-add_tool("default:pick_wood",		"Wooden Pickaxe")
-add_tool("default:pick_stone",		"Stone Pickaxe")
-add_tool("default:pick_steel",		"Steel Pickaxe")
-add_tool("default:pick_bronze",		"Bronze Pickaxe")
-add_tool("default:pick_mese",		"Mese Pickaxe")
-add_tool("default:pick_diamond",	"Diamond Pickaxe")
+add_tool("default:pick_wood")
+add_tool("default:pick_stone")
+add_tool("default:pick_steel")
+add_tool("default:pick_bronze")
+add_tool("default:pick_mese")
+add_tool("default:pick_diamond")
 
 -- Axe
-add_tool("default:axe_wood",		"Wooden Axe")
-add_tool("default:axe_stone",		"Stone Axe")
-add_tool("default:axe_steel",		"Steel Axe")
-add_tool("default:axe_bronze",		"Bronze Axe")
-add_tool("default:axe_mese",		"Mese Axe")
-add_tool("default:axe_diamond",		"Diamond Axe")
+add_tool("default:axe_wood")
+add_tool("default:axe_stone")
+add_tool("default:axe_steel")
+add_tool("default:axe_bronze")
+add_tool("default:axe_mese")
+add_tool("default:axe_diamond")
 
 -- Shovel
-add_tool("default:shovel_wood",		"Wooden Shovel")
-add_tool("default:shovel_stone",	"Stone Shovel")
-add_tool("default:shovel_steel",	"Steel Shovel")
-add_tool("default:shovel_bronze",	"Bronze Shovel")
-add_tool("default:shovel_mese",		"Mese Shovel")
-add_tool("default:shovel_diamond",	"Diamond Shovel")
+add_tool("default:shovel_wood")
+add_tool("default:shovel_stone")
+add_tool("default:shovel_steel")
+add_tool("default:shovel_bronze")
+add_tool("default:shovel_mese")
+add_tool("default:shovel_diamond")
