@@ -10,23 +10,45 @@ toolranks.colors = {
   white = minetest.get_color_escape_sequence("#ffffff")
 }
 
+toolranks.extra_tool_types = {}
+
+function toolranks.register_extra_tool_type(keyword, tool_type)
+  toolranks.extra_tool_types[keyword] = tool_type
+end
+
+local function get_extra_tool_type(description)
+  local d = string.lower(description)
+  for k, desc in pairs(toolranks.extra_tool_types) do
+    if string.find(d, string.lower(k)) then
+      return desc
+    end
+  end
+  return nil
+end
+
+
 function toolranks.get_tool_type(description)
   if not description then
-    return "tool"
+    return S("tool")
   else
-    local d = string.lower(description)
-    if string.find(d, "pickaxe") then
-      return "pickaxe"
-    elseif string.find(d, "axe") then
-      return "axe"
-    elseif string.find(d, "shovel") then
-      return "shovel"
-    elseif string.find(d, "hoe") then
-      return "hoe"
-    elseif string.find(d, "sword") then
-      return "sword"
+    local tool_type = get_extra_tool_type(description)
+    if tool_type then
+      return tool_type
     else
-      return "tool"
+      local d = string.lower(description)
+      if string.find(d, "pickaxe") then
+        return S("pickaxe")
+      elseif string.find(d, "axe") then
+        return S("axe")
+      elseif string.find(d, "shovel") then
+        return S("shovel")
+      elseif string.find(d, "hoe") then
+        return S("hoe")
+      elseif string.find(d, "sword") then
+        return S("sword")
+      else
+        return S("tool")
+      end
     end
   end
 end
@@ -40,7 +62,7 @@ function toolranks.create_description(name, uses, level)
                     description,
                     toolranks.colors.gold,
                     (level or 1),
-                    S(tooltype),
+                    tooltype,
                     toolranks.colors.grey,
                     (uses or 0))
   return newdesc
