@@ -10,6 +10,12 @@ toolranks.colors = {
 	white = minetest.get_color_escape_sequence("#ffffff")
 }
 
+local max_speed = tonumber(minetest.settings:get("toolranks_speed_multiplier")) or 2.0
+local max_use = tonumber(minetest.settings:get("toolranks_use_multiplier")) or 2.0
+local max_level = tonumber(minetest.settings:get("toolranks_levels")) or 10
+local level_digs = tonumber(minetest.settings:get("toolranks_level_digs")) or 500
+local level_multiplier = 1 / max_level
+
 function toolranks.get_tool_type(description)
 	if not description then
 		return "tool"
@@ -48,7 +54,7 @@ function toolranks.create_description(name, uses, level)
 end
 
 function toolranks.get_level(uses)
-	return math.min(100, math.floor(uses / 1000))
+	return math.min(max_level, math.floor(uses / level_digs))
 end
 
 function toolranks.new_afteruse(itemstack, user, node, digparams)
@@ -102,15 +108,18 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
 			gain = 2.0,
 		})
 		itemmeta:set_string("lastlevel", level)
-		local speed_multi = 1 - (level * 0.005)
-		local use_multi = 1 + (level * 0.01)
+
+		local speed_multiplier = 1 + (level * level_multiplier * (max_speed - 1))
+		local use_multiplier = 1 + (level * level_multiplier * (max_use - 1))
 		local caps = table.copy(itemdef.tool_capabilities)
-		caps.full_punch_interval = caps.full_punch_interval and (caps.full_punch_interval * speed_multi)
-		caps.punch_attack_uses = caps.punch_attack_uses and (caps.punch_attack_uses * use_multi)
+
+		caps.full_punch_interval = caps.full_punch_interval and (caps.full_punch_interval / speed_multiplier)
+		caps.punch_attack_uses = caps.punch_attack_uses and (caps.punch_attack_uses * use_multiplier)
+
 		for _,c in pairs(caps.groupcaps) do
-			c.uses = c.uses * use_multi
+			c.uses = c.uses * use_multiplier
 			for i,t in ipairs(c.times) do
-				c.times[i] = t * speed_multi
+				c.times[i] = t / speed_multiplier
 			end
 		end
 		itemmeta:set_tool_capabilities(caps)
