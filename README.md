@@ -1,14 +1,27 @@
-# minetest-toolranks
+# minetest-toolranks [toolranks]
+
 Minetest tool ranks mod
 
-Tool gains levels for digging nodes. Higher level tools take longer to
-wear out.
+Tools gain levels for digging nodes. Higher level tools dig faster and take longer to wear out.
 
 ## Are you a mod developer?
+
 Does one of your mods add new tools?
-If so, to support this mod, check if it is loaded with
-```minetest.get_modpath("toolranks")```
-and then replace all after_use definitions with toolranks.new_afteruse.
-Optionaly, you can also replace tools description with
-```toolranks.create_description("Tool Name", 0, 1)```
-and then set original_description to your tools name.
+If so, to support this mod, add this code to your mod, after your tool's code:
+
+```lua
+if minetest.get_modpath("toolranks") then
+    minetest.override_item("mymod:mytool", {
+        original_description = "My Tool",
+        description = toolranks.create_description("My Tool", 0, 1),
+        after_use = toolranks.new_afteruse
+    })
+    end
+end
+```
+
+Or alternatively, you can use the helper function:
+
+```lua
+toolranks.add_tool("mymod:mytool")
+```
