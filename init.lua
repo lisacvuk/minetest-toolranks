@@ -122,7 +122,7 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
 end
 
 -- Helper function
-local function add_tool(name)
+function toolranks.add_tool(name)
 	local desc = ItemStack(name):get_definition().description
 	minetest.override_item(name, {
 		original_description = desc,
@@ -132,33 +132,33 @@ local function add_tool(name)
 end
 
 -- Sword
-add_tool("default:sword_wood")
-add_tool("default:sword_stone")
-add_tool("default:sword_steel")
-add_tool("default:sword_bronze")
-add_tool("default:sword_mese")
-add_tool("default:sword_diamond")
+toolranks.add_tool("default:sword_wood")
+toolranks.add_tool("default:sword_stone")
+toolranks.add_tool("default:sword_steel")
+toolranks.add_tool("default:sword_bronze")
+toolranks.add_tool("default:sword_mese")
+toolranks.add_tool("default:sword_diamond")
 
 -- Pickaxe
-add_tool("default:pick_wood")
-add_tool("default:pick_stone")
-add_tool("default:pick_steel")
-add_tool("default:pick_bronze")
-add_tool("default:pick_mese")
-add_tool("default:pick_diamond")
+toolranks.add_tool("default:pick_wood")
+toolranks.add_tool("default:pick_stone")
+toolranks.add_tool("default:pick_steel")
+toolranks.add_tool("default:pick_bronze")
+toolranks.add_tool("default:pick_mese")
+toolranks.add_tool("default:pick_diamond")
 
 -- Axe
-add_tool("default:axe_wood")
-add_tool("default:axe_stone")
-add_tool("default:axe_steel")
-add_tool("default:axe_bronze")
-add_tool("default:axe_mese")
-add_tool("default:axe_diamond")
+toolranks.add_tool("default:axe_wood")
+toolranks.add_tool("default:axe_stone")
+toolranks.add_tool("default:axe_steel")
+toolranks.add_tool("default:axe_bronze")
+toolranks.add_tool("default:axe_mese")
+toolranks.add_tool("default:axe_diamond")
 
 -- Shovel
-add_tool("default:shovel_wood")
-add_tool("default:shovel_stone")
-add_tool("default:shovel_steel")
-add_tool("default:shovel_bronze")
-add_tool("default:shovel_mese")
-add_tool("default:shovel_diamond")
+toolranks.add_tool("default:shovel_wood")
+toolranks.add_tool("default:shovel_stone")
+toolranks.add_tool("default:shovel_steel")
+toolranks.add_tool("default:shovel_bronze")
+toolranks.add_tool("default:shovel_mese")
+toolranks.add_tool("default:shovel_diamond")
