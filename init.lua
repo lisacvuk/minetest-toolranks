@@ -47,19 +47,7 @@ function toolranks.create_description(name, uses, level)
 end
 
 function toolranks.get_level(uses)
-  if uses <= 200 then
-    return 1
-  elseif uses < 400 then
-    return 2
-  elseif uses < 1000 then
-    return 3
-  elseif uses < 2000 then
-    return 4
-  elseif uses < 3200 then
-    return 5
-  else
-    return 6
-  end
+  return math.min(100, math.floor(uses / 1000))
 end
 
 function toolranks.new_afteruse(itemstack, user, node, digparams)
@@ -67,7 +55,7 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
   local itemdef   = itemstack:get_definition() -- Item Definition
   local itemdesc  = itemdef.original_description -- Original Description
   local dugnodes  = tonumber(itemmeta:get_string("dug")) or 0 -- Number of nodes dug
-  local lastlevel = tonumber(itemmeta:get_string("lastlevel")) or 1 -- Level the tool had
+  local lastlevel = tonumber(itemmeta:get_string("lastlevel")) or 0 -- Level the tool had
                                                                     -- on the last dig
   local most_digs = mod_storage:get_int("most_digs") or 0
   local most_digs_user = mod_storage:get_string("most_digs_user") or 0
@@ -111,21 +99,21 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
     })
     minetest.chat_send_player(user:get_player_name(), levelup_text)
     itemmeta:set_string("lastlevel", level)
+	local speed_multi = 1 - (level * 0.005)
+	local use_multi = 1 + (level * 0.01)
+	local caps = table.copy(itemdef.tool_capabilities)
+	caps.full_punch_interval = caps.full_punch_interval and (caps.full_punch_interval * speed_multi)
+	caps.punch_attack_uses = caps.punch_attack_uses and (caps.punch_attack_uses * use_multi)
+	for _,c in pairs(caps.groupcaps) do
+		c.uses = c.uses * use_multi
+		for i,t in ipairs(c.times) do
+			c.times[i] = t * speed_multi
+		end
+	end	
+	itemmeta:set_tool_capabilities(caps)
   end
-
-  local newdesc   = toolranks.create_description(itemdesc, dugnodes, level)
-
-  itemmeta:set_string("description", newdesc)
-  local wear = digparams.wear
-  if level > 1 then
-    wear = digparams.wear / (1 + level / 4)
-  end
-
-  --minetest.chat_send_all("wear="..wear.."Original wear: "..digparams.wear.." 1+level/4="..1+level/4)
-  -- Uncomment for testing ^
-
-  itemstack:add_wear(wear)
-
+  itemmeta:set_string("description", toolranks.create_description(itemdesc, dugnodes, level))
+  itemstack:add_wear(digparams.wear)
   return itemstack
 end
 
