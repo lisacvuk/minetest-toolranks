@@ -32,12 +32,19 @@ function toolranks.get_tool_type(description)
     elseif string.find(d, "sword") then
       return "sword"
     else
-    return "tool"
+      return "tool"
     end
   end
 end
 
-function toolranks.create_description(name, uses, level)
+function toolranks.get_level(uses)
+  if type(uses) == "number" and uses > 0 then
+    return math.min(max_level, math.floor(uses / level_digs))
+  end
+  return 0
+end
+
+function toolranks.create_description(name, uses)
   local description = name
   local tooltype = toolranks.get_tool_type(description)
   local newdesc = S(
@@ -45,16 +52,12 @@ function toolranks.create_description(name, uses, level)
     toolranks.colors.green,
     description,
     toolranks.colors.gold,
-    (level or 1),
+    toolranks.get_level(uses),
     S(tooltype),
     toolranks.colors.grey,
-    (uses or 0)
+    (type(uses) == "number" and uses or 0)
   )
   return newdesc
-end
-
-function toolranks.get_level(uses)
-  return math.min(max_level, math.floor(uses / level_digs))
 end
 
 function toolranks.new_afteruse(itemstack, user, node, digparams)
@@ -107,7 +110,6 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
       to_player = user:get_player_name(),
       gain = 2.0,
     })
-    itemmeta:set_string("lastlevel", level)
 
     local speed_multiplier = 1 + (level * level_multiplier * (max_speed - 1))
     local use_multiplier = 1 + (level * level_multiplier * (max_use - 1))
@@ -125,7 +127,8 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
     itemmeta:set_tool_capabilities(caps)
   end
 
-  itemmeta:set_string("description", toolranks.create_description(itemdesc, dugnodes, level))
+  itemmeta:set_string("lastlevel", level)
+  itemmeta:set_string("description", toolranks.create_description(itemdesc, dugnodes))
   itemstack:add_wear(digparams.wear)
   return itemstack
 end
@@ -135,7 +138,7 @@ function toolranks.add_tool(name)
   local desc = ItemStack(name):get_definition().description
   minetest.override_item(name, {
     original_description = desc,
-    description = toolranks.create_description(desc, 0, 1),
+    description = toolranks.create_description(desc),
     after_use = toolranks.new_afteruse
   })
 end
