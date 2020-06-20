@@ -13,7 +13,7 @@ If so, to support this mod, add this code to your mod, after your tool's code:
 if minetest.get_modpath("toolranks") then
     minetest.override_item("mymod:mytool", {
         original_description = "My Tool",
-        description = toolranks.create_description("My Tool", 0, 1),
+        description = toolranks.create_description("My Tool"),
         after_use = toolranks.new_afteruse
     })
     end
