@@ -128,7 +128,7 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
       itemmeta:set_tool_capabilities(caps)
 	end
   end
-  
+
   -- Old method for compatibility with tools without tool_capabilities defined
   local wear = digparams.wear
   if level > 0 and not itemdef.tool_capabilities then
