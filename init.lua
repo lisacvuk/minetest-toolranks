@@ -110,26 +110,35 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
       to_player = user:get_player_name(),
       gain = 2.0,
     })
+	-- Make tool better by modifying tool_capabilities (if defined)
+    if itemdef.tool_capabilities then
+      local speed_multiplier = 1 + (level * level_multiplier * (max_speed - 1))
+      local use_multiplier = 1 + (level * level_multiplier * (max_use - 1))
+      local caps = table.copy(itemdef.tool_capabilities)
 
-    local speed_multiplier = 1 + (level * level_multiplier * (max_speed - 1))
-    local use_multiplier = 1 + (level * level_multiplier * (max_use - 1))
-    local caps = table.copy(itemdef.tool_capabilities)
+      caps.full_punch_interval = caps.full_punch_interval and (caps.full_punch_interval / speed_multiplier)
+      caps.punch_attack_uses = caps.punch_attack_uses and (caps.punch_attack_uses * use_multiplier)
 
-    caps.full_punch_interval = caps.full_punch_interval and (caps.full_punch_interval / speed_multiplier)
-    caps.punch_attack_uses = caps.punch_attack_uses and (caps.punch_attack_uses * use_multiplier)
-
-    for _,c in pairs(caps.groupcaps) do
-      c.uses = c.uses * use_multiplier
-      for i,t in ipairs(c.times) do
-        c.times[i] = t / speed_multiplier
+      for _,c in pairs(caps.groupcaps) do
+        c.uses = c.uses * use_multiplier
+        for i,t in ipairs(c.times) do
+          c.times[i] = t / speed_multiplier
+        end
       end
-    end
-    itemmeta:set_tool_capabilities(caps)
+      itemmeta:set_tool_capabilities(caps)
+	end
+  end
+
+  -- Old method for compatibility with tools without tool_capabilities defined
+  local wear = digparams.wear
+  if level > 0 and not itemdef.tool_capabilities then
+    local use_multiplier = 1 + (level * level_multiplier * (max_use - 1))
+    wear = wear / use_multiplier
   end
 
   itemmeta:set_string("lastlevel", level)
   itemmeta:set_string("description", toolranks.create_description(itemdesc, dugnodes))
-  itemstack:add_wear(digparams.wear)
+  itemstack:add_wear(wear)
   return itemstack
 end
 
