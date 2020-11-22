@@ -63,11 +63,13 @@ end
 function toolranks.new_afteruse(itemstack, user, node, digparams)
   local itemmeta = itemstack:get_meta()
   local itemdef = itemstack:get_definition()
-  local itemdesc = itemdef.original_description
+  local itemdesc = itemdef.original_description or ""
   local dugnodes = tonumber(itemmeta:get_string("dug")) or 0
   local lastlevel = tonumber(itemmeta:get_string("lastlevel")) or 0
   local most_digs = mod_storage:get_int("most_digs") or 0
   local most_digs_user = mod_storage:get_string("most_digs_user") or 0
+  local pname = user:get_player_name()
+  if not pname then return itemstack end -- player nil check
 
   if digparams.wear > 0 then -- Only count nodes that spend the tool
     dugnodes = dugnodes + 1
@@ -75,24 +77,24 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
   end
 
   if dugnodes > most_digs then
-    if most_digs_user ~= user:get_player_name() then -- Avoid spam.
+    if most_digs_user ~= pname then -- Avoid spam.
       minetest.chat_send_all(S(
         "Most used tool is now a @1@2@3 owned by @4 with @5 uses.",
         toolranks.colors.green,
         itemdesc,
         toolranks.colors.white,
-        user:get_player_name(),
+        pname,
         dugnodes
       ))
     end
     mod_storage:set_int("most_digs", dugnodes)
-    mod_storage:set_string("most_digs_user", user:get_player_name())
+    mod_storage:set_string("most_digs_user", pname)
   end
 
   if itemstack:get_wear() > 60135 then
     minetest.chat_send_player(user:get_player_name(), S("Your tool is about to break!"))
     minetest.sound_play("default_tool_breaks", {
-      to_player = user:get_player_name(),
+      to_player = pname,
       gain = 2.0,
     })
   end
@@ -107,7 +109,7 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
     )
     minetest.chat_send_player(user:get_player_name(), levelup_text)
     minetest.sound_play("toolranks_levelup", {
-      to_player = user:get_player_name(),
+      to_player = pname,
       gain = 2.0,
     })
 	-- Make tool better by modifying tool_capabilities (if defined)
