@@ -122,9 +122,11 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
       caps.punch_attack_uses = caps.punch_attack_uses and (caps.punch_attack_uses * use_multiplier)
 
       for _,c in pairs(caps.groupcaps) do
-        c.uses = c.uses * use_multiplier
-        for i,t in ipairs(c.times) do
-          c.times[i] = t / speed_multiplier
+        if c.uses then
+          c.uses = c.uses * use_multiplier
+          for i,t in ipairs(c.times) do
+            c.times[i] = t / speed_multiplier
+          end
         end
       end
       itemmeta:set_tool_capabilities(caps)
