@@ -1,5 +1,5 @@
 # textdomain: toolranks
-@1@2@n@3Level @4 @5@n@6Node dug: @7=@1@2@n@3Level @4 @5@n@6Node dug: @7
+@1@2@\n@3Level @4 @5@\n@6Node dug: @7@8=@1@2@\n@3Level @4 @5@\n@6Node dug: @7@8
 pickaxe=pickaxe
 axe=axe
 shovel=shovel

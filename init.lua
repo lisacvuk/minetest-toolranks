@@ -48,14 +48,15 @@ function toolranks.create_description(name, uses)
   local description = name
   local tooltype = toolranks.get_tool_type(description)
   local newdesc = S(
-    "@1@2\n@3Level @4 @5\n@6@Node dug: @7",
+    "@1@2\n@3Level @4 @5\n@6Node dug: @7@8",
     toolranks.colors.green,
     description,
     toolranks.colors.gold,
     toolranks.get_level(uses),
     S(tooltype),
     toolranks.colors.grey,
-    (type(uses) == "number" and uses or 0)
+    (type(uses) == "number" and uses or 0),
+    toolranks.colors.white
   )
   return newdesc
 end
@@ -112,7 +113,7 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
       to_player = pname,
       gain = 2.0,
     })
-	-- Make tool better by modifying tool_capabilities (if defined)
+    -- Make tool better by modifying tool_capabilities (if defined)
     if itemdef.tool_capabilities then
       local speed_multiplier = 1 + (level * level_multiplier * (max_speed - 1))
       local use_multiplier = 1 + (level * level_multiplier * (max_use - 1))
@@ -122,14 +123,18 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
       caps.punch_attack_uses = caps.punch_attack_uses and (caps.punch_attack_uses * use_multiplier)
 
       for _,c in pairs(caps.groupcaps) do
-        c.uses = c.uses * use_multiplier
-        for i,t in ipairs(c.times) do
-          c.times[i] = t / speed_multiplier
+        if c.uses then
+          c.uses = c.uses * use_multiplier
+        end
+        if c.times then
+          for i,t in ipairs(c.times) do
+            c.times[i] = t / speed_multiplier
+          end
         end
       end
       itemmeta:set_tool_capabilities(caps)
-	end
   end
+end
 
   -- Old method for compatibility with tools without tool_capabilities defined
   local wear = digparams.wear
