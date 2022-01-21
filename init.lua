@@ -190,4 +190,3 @@ toolranks.add_tool("default:shovel_steel")
 toolranks.add_tool("default:shovel_bronze")
 toolranks.add_tool("default:shovel_mese")
 toolranks.add_tool("default:shovel_diamond")
-
