@@ -4,6 +4,10 @@ Minetest tool ranks mod
 
 Tools gain levels for digging nodes. Higher level tools dig faster and take longer to wear out.
 
+## Licence
+Code: LGPLv2.1+  
+Tool level sound: [CC BY 3.0](https://freesound.org/people/MakoFox/sounds/126422/)
+
 ## Are you a mod developer?
 
 Does one of your mods add new tools?
