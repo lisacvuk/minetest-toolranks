@@ -8,4 +8,5 @@ sword=sword
 tool=tool
 Most used tool is now a @1@2@3 owned by @4 with @5 uses.=Most used tool is now a @1@2@3 owned by @4 with @5 uses.
 Your tool is about to break!=Your tool is about to break!
-Your @1@2@3 just leveled up!=Your @1@2@3 just leveled up!
+Your @1@2@3 just leveled up to @4@5@6!=Your @1@2@3 just leveled up to @4@5@6!
+

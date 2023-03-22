@@ -7,5 +7,5 @@ hoe=houe
 sword=épée
 tool=outil
 Most used tool is now a @1@2@3 owned by @4 with @5 uses.=L’outil le plus utilisé est désormais @1@2@3 appartenant à @4 avec @5 utilisations.
-Your tool is about to break!=Votre outil va se casser !
-Your @1@2@3 just leveled up!=Votre @1@2@3 a gagné un niveau !
+Your tool is about to break!=Tu outil va se casser !
+Your @1@2@3 just leveled up to @4@5@6!=Tu @1@2@3 a gagné un niveau au @4@5@6 !

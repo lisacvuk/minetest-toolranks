@@ -1,0 +1,11 @@
+# textdomain: toolranks
+@1@2@n@3Level @4 @5@n@6Node dug: @7=@1@2@n@3Nivel @4 @5@n@6Nodo excavado: @7
+pickaxe=pico
+axe=hacha
+shovel=pala
+hoe=azada
+sword=espada
+tool=herramienta
+Most used tool is now a @1@2@3 owned by @4 with @5 uses.=La herramienta más utilizada ahora es @1@2@3 propiedad de @4 con @5 usos.
+Your tool is about to break!=¡Tu herramienta está a punto de romperse!
+Your @1@2@3 just leveled up to @4@5@6!=¡Tu @1@2@3 acaba de subir de nivel a @4@5@6!

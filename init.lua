@@ -102,9 +102,12 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
   local level = toolranks.get_level(dugnodes)
   if lastlevel < level then
     local levelup_text = S(
-      "Your @1@2@3 just leveled up!",
+      "Your @1@2@3 just leveled up to @4@5@6!",
       toolranks.colors.green,
       itemdesc,
+      toolranks.colors.white,
+      toolranks.colors.green,
+      level,
       toolranks.colors.white
     )
     minetest.chat_send_player(user:get_player_name(), levelup_text)
@@ -122,9 +125,11 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
       caps.punch_attack_uses = caps.punch_attack_uses and (caps.punch_attack_uses * use_multiplier)
 
       for _,c in pairs(caps.groupcaps) do
-        c.uses = c.uses * use_multiplier
-        for i,t in ipairs(c.times) do
-          c.times[i] = t / speed_multiplier
+        if c.uses then
+          c.uses = c.uses * use_multiplier
+          for i,t in ipairs(c.times) do
+            c.times[i] = t / speed_multiplier
+          end
         end
       end
       itemmeta:set_tool_capabilities(caps)
