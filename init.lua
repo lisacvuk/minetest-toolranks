@@ -154,34 +154,73 @@ function toolranks.add_tool(name)
   })
 end
 
--- Sword
-toolranks.add_tool("default:sword_wood")
-toolranks.add_tool("default:sword_stone")
-toolranks.add_tool("default:sword_steel")
-toolranks.add_tool("default:sword_bronze")
-toolranks.add_tool("default:sword_mese")
-toolranks.add_tool("default:sword_diamond")
+if minetest.get_modpath("default") then
+   -- Sword
+   toolranks.add_tool("default:sword_wood")
+   toolranks.add_tool("default:sword_stone")
+   toolranks.add_tool("default:sword_steel")
+   toolranks.add_tool("default:sword_bronze")
+   toolranks.add_tool("default:sword_mese")
+   toolranks.add_tool("default:sword_diamond")
+   
+   -- Pickaxe
+   toolranks.add_tool("default:pick_wood")
+   toolranks.add_tool("default:pick_stone")
+   toolranks.add_tool("default:pick_steel")
+   toolranks.add_tool("default:pick_bronze")
+   toolranks.add_tool("default:pick_mese")
+   toolranks.add_tool("default:pick_diamond")
+   
+   -- Axe
+   toolranks.add_tool("default:axe_wood")
+   toolranks.add_tool("default:axe_stone")
+   toolranks.add_tool("default:axe_steel")
+   toolranks.add_tool("default:axe_bronze")
+   toolranks.add_tool("default:axe_mese")
+   toolranks.add_tool("default:axe_diamond")
+   
+   -- Shovel
+   toolranks.add_tool("default:shovel_wood")
+   toolranks.add_tool("default:shovel_stone")
+   toolranks.add_tool("default:shovel_steel")
+   toolranks.add_tool("default:shovel_bronze")
+   toolranks.add_tool("default:shovel_netherite")
+   toolranks.add_tool("default:shovel_diamond")
+end
 
--- Pickaxe
-toolranks.add_tool("default:pick_wood")
-toolranks.add_tool("default:pick_stone")
-toolranks.add_tool("default:pick_steel")
-toolranks.add_tool("default:pick_bronze")
-toolranks.add_tool("default:pick_mese")
-toolranks.add_tool("default:pick_diamond")
+if minetest.get_modpath("mcl_tools") then
+   -- Sword
+   toolranks.add_tool("mcl_tools:sword_wood")
+   toolranks.add_tool("mcl_tools:sword_stone")
+   toolranks.add_tool("mcl_tools:sword_iron")
+   toolranks.add_tool("mcl_tools:sword_gold")
+   toolranks.add_tool("mcl_tools:sword_netherite")
+   toolranks.add_tool("mcl_tools:sword_diamond")
+   
+   -- Pickaxe
+   toolranks.add_tool("mcl_tools:pick_wood")
+   toolranks.add_tool("mcl_tools:pick_stone")
+   toolranks.add_tool("mcl_tools:pick_iron")
+   toolranks.add_tool("mcl_tools:pick_gold")
+   toolranks.add_tool("mcl_tools:pick_netherite")
+   toolranks.add_tool("mcl_tools:pick_diamond")
+   
+   -- Axe
+   toolranks.add_tool("mcl_tools:axe_wood")
+   toolranks.add_tool("mcl_tools:axe_stone")
+   toolranks.add_tool("mcl_tools:axe_iron")
+   toolranks.add_tool("mcl_tools:axe_gold")
+   toolranks.add_tool("mcl_tools:axe_netherite")
+   toolranks.add_tool("mcl_tools:axe_diamond")
+   
+   -- Shovel
+   toolranks.add_tool("mcl_tools:shovel_wood")
+   toolranks.add_tool("mcl_tools:shovel_stone")
+   toolranks.add_tool("mcl_tools:shovel_iron")
+   toolranks.add_tool("mcl_tools:shovel_gold")
+   toolranks.add_tool("mcl_tools:shovel_netherite")
+   toolranks.add_tool("mcl_tools:shovel_diamond")
 
--- Axe
-toolranks.add_tool("default:axe_wood")
-toolranks.add_tool("default:axe_stone")
-toolranks.add_tool("default:axe_steel")
-toolranks.add_tool("default:axe_bronze")
-toolranks.add_tool("default:axe_mese")
-toolranks.add_tool("default:axe_diamond")
-
--- Shovel
-toolranks.add_tool("default:shovel_wood")
-toolranks.add_tool("default:shovel_stone")
-toolranks.add_tool("default:shovel_steel")
-toolranks.add_tool("default:shovel_bronze")
-toolranks.add_tool("default:shovel_mese")
-toolranks.add_tool("default:shovel_diamond")
+   -- shears
+   toolranks.add_tool("mcl_tools:shears")
+end
