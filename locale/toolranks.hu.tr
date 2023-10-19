@@ -1,0 +1,11 @@
+# textdomain: toolranks
+@1@2@n@3Level @4 @5@n@6Node dug: @7=@1@2@n@3 Szint @4 @5@n@6Kiásott blokkok: @7
+pickaxe=csákány
+axe=fejsze
+shovel=ásó
+hoe=kapa
+sword=kard
+tool=szerszám
+Most used tool is now a @1@2@3 owned by @4 with @5 uses.=A legtöbbet használt szerszám mostantól a @1@2@3 (birtokolja: @4) @5 használattal.
+Your tool is about to break!=Mindjárt eltörik a szerszámod!
+Your @1@2@3 just leveled up!=A @1@2@3*d szintet lépett!

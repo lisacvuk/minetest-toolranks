@@ -1,0 +1,11 @@
+# textdomain: toolranks
+@1@2@n@3Level @4 @5@n@6Node dug: @7=@1@2@n@3 Stufe @4 @5@n@6Blöcke gehaut: @7
+pickaxe=spitzhacke
+axe=axt
+shovel=schaufel
+hoe=hacke
+sword=schwert
+tool=werkzeug
+Most used tool is now a @1@2@3 owned by @4 with @5 uses.=Meistbenutzte Werkzeug ist jetzt @1@2@3 (Eigentümer: @4) mit @5 Nutzungen.
+Your tool is about to break!=Dein Werkzeug steht kurz vor zerbrechen!
+Your @1@2@3 just leveled up!=Dein @1@2@3 hat sich gerade weiterentwickelt!
