@@ -60,10 +60,20 @@ function toolranks.create_description(name, uses)
   return newdesc
 end
 
+-- Implicit Minetest behavior when after_use = nil
+local function default_afteruse(itemstack, user, node, digparams)
+  itemstack:add_wear(digparams.wear)
+  return itemstack
+end
+
 function toolranks.new_afteruse(itemstack, user, node, digparams)
   local itemmeta = itemstack:get_meta()
   local itemdef = itemstack:get_definition()
-  local itemdesc = itemdef.original_description or ""
+  local itemdesc = itemmeta:get_string("toolranks_original_description")
+  if itemdesc == "" or itemdesc == nil then
+    itemdesc = itemmeta:get_string("description")
+  end
+  itemdesc = itemdesc or itemdef.original_description or ""
   local dugnodes = tonumber(itemmeta:get_string("dug")) or 0
   local lastlevel = tonumber(itemmeta:get_string("lastlevel")) or 0
   local most_digs = mod_storage:get_int("most_digs") or 0
@@ -138,18 +148,31 @@ function toolranks.new_afteruse(itemstack, user, node, digparams)
     wear = wear / use_multiplier
   end
 
+  local modified_digparams = table.copy(digparams)
+  modified_digparams.wear = wear
+  itemmeta:set_string("description", itemdesc)  -- For the original mod
   itemmeta:set_string("lastlevel", level)
+  itemstack = (itemdef._toolranks_original_after_use or default_afteruse)(itemstack, user, node, modified_digparams) or itemstack
+  itemmeta = itemstack:get_meta()
+  itemdesc = itemmeta:get_string("description")
   itemmeta:set_string("description", toolranks.create_description(itemdesc, dugnodes))
-  itemstack:add_wear(wear)
+  itemmeta:set_string("toolranks_original_description", itemdesc)
+  -- TODO somehow handle description updates that happen outside of after_use event?
   return itemstack
 end
 
 -- Helper function
 function toolranks.add_tool(name)
-  local desc = ItemStack(name):get_definition().description
+  local original_definition = ItemStack(name):get_definition()
+  local desc = original_definition.description
+  local original_after_use = original_definition.after_use
+  if original_after_use == nil or original_after_use == toolranks.new_afteruse then
+    original_after_use = default_afteruse
+  end
   minetest.override_item(name, {
     original_description = desc,
     description = toolranks.create_description(desc),
+    _toolranks_original_after_use = original_after_use,
     after_use = toolranks.new_afteruse
   })
 end
